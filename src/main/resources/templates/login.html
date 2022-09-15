@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="partials/fragment :: head('Login')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card">
+    <h1 class="page-header">Login</h1>
+    <div class="alert alert-danger" th:if="${param.error}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+      Your login attempt was not successful, try again.<br />
+      Reason: <span th:text="${errorMsg}">Wrong input!</span>
+    </div>
+    <div class="alert alert-danger" th:if="${param.logout}">
+      You've been logged out
+    </div>
+    <form th:action="@{/login}"method="post">
+      <label for="username"><span class="required">* </span>User Name:</label><br>
+      <input class="login-input" type="text" id="username" name="username" placeholder="User Name" required><br>
+      <br><label for="password"><span class="required">* </span>Password:</label><br>
+      <input class="login-input" type="password" id="password" name="password" placeholder="Password"><br>
+      <br> <button style="border-radius: 25px" type="submit" value="submit">Submit</button><br>
+      <br><a style="text-align: center; color: #ef2c61" href="/resetpw">Forgot your password?</a>
+    </form>
+  </div>
+</div>
+</body>
+</html>
