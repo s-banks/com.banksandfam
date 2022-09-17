@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/fragment :: head('Home')"></head>
+<head th:replace="partials/fragment :: head('Recipes')"></head>
 <body>
 <nav th:replace="partials/fragment :: navbar"></nav>
-<div>
-<img src="/img/underConstruction.png">
+<div class="flip-card-container">
+  <div class="flip-card">
+    <div class="flip-card-front">
+      Front of card
+    </div>
+    <div class="flip-card-back">
+      Back of card
+    </div>
+  </div>
 </div>
 <div th:replace="partials/fragment :: scripts"></div>
 </body>

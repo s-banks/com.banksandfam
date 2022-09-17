@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/fragment :: head('Registration Successful')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card">
+    <div class="content">
+      <h3>You have signed up successfully!</h3>
+      <p>Please check your email to verify your account.</p>
+      <h4><a th:href="@{/}">Click here to return to the home page</a></h4>
+    </div>
+  </div>
+</div>
+</body>
+</html>

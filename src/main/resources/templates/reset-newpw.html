@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/fragment :: head('New Password')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card">
+    <h1 class="loginTitle">Reset Password</h1>
+    <p class="content">Please enter your new password:</p>
+    <div class="alert alert-danger" th:if="${param.pfail}" th:with="errorMsg='This passwords do not match'">
+      Your password reset was not successful, please try again.<br/>
+      Reason: <span th:text="${errorMsg}">Wrong input!</span>
+    </div>
+    <form th:action="@{/verifyreset}" method="post">
+      <br>
+      <label th:for="password">Password:</label><br>
+      <input type="password" th:id="password" th:name="password" placeholder="Password" required
+             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br>
+      <div id="message">
+        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+        <p id="number" class="invalid">A <b>number</b></p>
+        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+      </div>
+      <br>
+      <label for="verify-password">Verify Password:</label><br>
+      <input type="password" id="verify-password" name="verify-password" placeholder="Verify password"
+             required><br>
+      <br>
+      <input type="hidden" id="code" name="code" th:value="${param.code}"><br>
+      <button style="border-radius: 25px" type="submit" value="submit">Submit</button>
+      <br>
+    </form>
+  </div>
+</div>
+<div th:replace="partials/fragment :: scripts"></div>
+</body>
+</html>

@@ -37,7 +37,7 @@ public class SecurityConfiguration {
 		httpSecurity
 				.formLogin()
 				.loginPage("/login*")
-				.defaultSuccessUrl("/profile")
+				.defaultSuccessUrl("/")
 				.permitAll()
 				.and()
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -48,7 +48,7 @@ public class SecurityConfiguration {
 				.permitAll()
 				.and()
 				.authorizeRequests()
-				.antMatchers("/recipes")
+				.antMatchers("/yarr")
 				.authenticated();
 		return httpSecurity.build();
 	}

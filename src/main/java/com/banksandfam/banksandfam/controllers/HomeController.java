@@ -17,4 +17,15 @@ public class HomeController {
 		return "index";
 	}
 
+	@GetMapping("/recipes")
+	public String showRecipes(){
+		return "recipes";
+	}
+
+	@GetMapping("/history")
+	public String showHistory(){
+		return "history";
+	}
+
+
 }

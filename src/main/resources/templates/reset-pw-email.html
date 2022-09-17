@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/fragment :: head('Password Reset')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card">
+    <h1 class="loginTitle">Reset Your Password</h1>
+    <br>
+    <div class="alert alert-danger" th:if="${param.efail}"th:with="errorMsg='Email address was not found.'">
+      Your password reset attempt was not successful, please try again.<br />
+      Reason: <span th:text="${errorMsg}">Wrong input!</span>
+    </div>
+    <p class="content">Please enter your email address to begin the password reset process.</p>
+    <form th:action="@{/resetpw}" method="post">
+      <label th:for="email">Email:</label><br>
+      <input type="email" th:id="email" th:name="email" placeholder="Email@" th:value="${email}" required><br>
+      <br>
+      <br> <button style="border-radius: 25px" type="submit" value="submit">Submit</button><br>
+    </form>
+  </div>
+</div>
+</body>
+</html>

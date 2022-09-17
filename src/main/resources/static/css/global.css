@@ -1,0 +1,81 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/*---------------Flip Cards--------------------*/
+.flip-card-container {
+	width: 450px;
+	height: 300px;
+	perspective: 1000px;
+}
+.flip-card {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transition: transform 1s;
+	transform-style: preserve-3d;
+}
+.flip-card-container:hover .flip-card {
+	transform: rotateY(180deg); /* <=>  rotateY(.5turn) */
+}
+
+.flip-card-front, .flip-card-back {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	-webkit-backface-visibility: hidden; /* Safari */
+	backface-visibility: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.flip-card-front {
+	background-color: #333;
+	color: #fff;
+}
+.flip-card-back {
+	background-color: #517fa4;
+	color: #fff;
+	transform: rotateY(180deg);
+}
+
+/*---------------Password validation fields--------------------*/
+
+#message {
+	/*display: none;*/
+	border-radius: 15px;
+	background: rgba(175,226,247, 0.7) ;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	position: relative;
+	/*align-self: center;*/
+	padding: 10px;
+
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+	color: green;
+}
+
+.valid:before {
+	position: relative;
+	left: -35px;
+	content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+	color: red;
+}
+
+.invalid:before {
+	position: relative;
+	left: -35px;
+	content: "✖";
+}

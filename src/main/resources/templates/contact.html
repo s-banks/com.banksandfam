@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/fragment :: head('Contact User')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+
+<div class="container">
+  <div class="card">
+    <div class="content">
+      <h3 class="page-header">Email User</h3>
+      <p style="color: white">Use this form to send a system email.</p>
+      <p style="color: white">NOTE: Your profile's email address will be included as part of this email.</p>
+      <hr>
+      <br>
+      <p style="color: white">From: <span th:text="${#authentication.principal.username}"></span>
+        <br><br>
+        To: <span th:text="${toUser.username}"></span>
+      </p>
+      <form class="form" th:action="@{/contact}" th:method="POST">
+        <input  class="register-input" type="hidden" id="toUser" name="toUser" th:value="${toUser.username}">
+        <input class="register-input" type="hidden" id="fromUser" name="fromUser" th:value="${#authentication.principal.username}">
+        <label th:for="subject">Subject:</label>
+        <input class="register-input" type="text" th:id="subject" th:name="subject" th:value="${subject}">
+        <br>
+        <label th:for="${msgbody}">Body:</label>
+        <br><br>
+        <textarea  cols="70" rows="5" style="resize: none; border-radius: 15px;" th:name="msgbody" th:id="msgbody"
+                   placeholder="Enter your message body here."></textarea><br>
+        <br><button style="border-radius: 25px" type="submit" value="submit">Send</button>
+      </form>
+      <br>
+      <div class="alert alert-danger" th:if="${param.error}"
+           th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+        Your message was not sent, please try again.<br/>
+        Reason: <span th:text="${errorMsg}">Wrong input!</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:replace="partials/fragment :: scripts"></div>
+</body>
+</html>
+

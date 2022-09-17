@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/fragment :: head('Password Reset Complete')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card">
+    <div class="content">
+      <h3>You have successfully reset your password!</h3>
+      <br>
+      <h4><a th:href="@{/login}">Click here to return to the login page</a></h4>
+    </div>
+  </div>
+</div>
+</body>
+</html>

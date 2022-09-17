@@ -43,8 +43,8 @@ public class UserServices {
 	private void sendVerificationEmail(User user, String siteURL) throws MessagingException, UnsupportedEncodingException {
 		//build email message content using the passed user object and URL from the above register function
 		String toAddress = user.getEmail();
-		String fromAddress = "byob@buildyourownband.com";
-		String senderName = "BYOB";
+		String fromAddress = "site@banksandfam.com";
+		String senderName = "Banksandfam";
 		String subject = "Please verify your registration";
 		String content = "Dear [[name]],"
 				+ "<br>"
@@ -58,7 +58,7 @@ public class UserServices {
 				+ "<br>"
 				+ "Thank you,"
 				+ "<br>"
-				+ "BYOB";
+				+ "Banksandfam";
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setFrom(fromAddress, senderName);
@@ -101,8 +101,8 @@ public class UserServices {
 	private void sendResetEmail(User user, String siteURL) throws MessagingException, UnsupportedEncodingException {
 		//build email message content using the passed user object and URL from the above register function
 		String toAddress = user.getEmail();
-		String fromAddress = "byob@buildyourownband.com";
-		String senderName = "BYOB";
+		String fromAddress = "site@banksandfam.com";
+		String senderName = "Banksandfam";
 		String subject = "Please verify you wish to reset your password";
 		String content = "Dear [[name]],"
 				+ "<br>"
@@ -116,7 +116,7 @@ public class UserServices {
 				+ "<br>"
 				+ "Thank you,"
 				+ "<br>"
-				+ "BYOB";
+				+ "Banksandfam";
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setFrom(fromAddress, senderName);
@@ -159,8 +159,8 @@ public class UserServices {
 	private void sendContactEmail(User user, Model model, String siteURL) throws MessagingException, UnsupportedEncodingException {
 		//build email message content using the passed user object and URL from the above register function
 		String toAddress = user.getEmail();
-		String fromAddress = "byob@buildyourownband.com";
-		String senderName = "BYOB";
+		String fromAddress = "site@banksandfam.com";
+		String senderName = "Banksandfam";
 		String subject = "Another user would like to contact you.";
 		String content = "Dear [[name]],"
 				+ "<br>"
@@ -178,7 +178,7 @@ public class UserServices {
 				+ "<br>"
 				+ "Thank you,"
 				+ "<br>"
-				+ "BYOB";
+				+ "Banksandfam";
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setFrom(fromAddress, senderName);
@@ -191,7 +191,6 @@ public class UserServices {
 		content = content.replace("[[body]]", String.valueOf(model.getAttribute("body")));
 		content = content.replace("[[email]]", currentUser.getEmail());
 		helper.setText(content, true);
-		//send message, credentials in application.properties
 		mailSender.send(message);
 	}
 
