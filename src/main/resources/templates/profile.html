@@ -3,13 +3,40 @@
 <head th:replace="partials/fragment :: head('Profile')"></head>
 <body>
 <nav th:replace="partials/fragment :: navbar"></nav>
-<div class="card-container">
-  <div class="card">
-    <div class="card-front">
-      Profile
-    </div>
-  </div>
-</div>
+	<div class="layout">
+		<div class="layout-sidebar">
+			<div class="profile-header"><img class="profile-photo" th:src="${#authentication.principal.profile_img}"></div>
+			<div class="userInfo">
+				<br>
+				Name: <span th:if="${#authentication.principal.firstName}" th:text="${#authentication.principal.firstName} + ' ' + ${#authentication.principal.lastName}"></span>
+				<br>
+				Location: <span th:if="${#authentication.principal.city}" th:text="${#authentication.principal.city} + ', ' + ${#authentication.principal.state}"></span>
+			</div>
+		</div>
+		<div class="layout-main">
+<br>
+			Bio:<br>
+			<p th:text="${#authentication.principal.bio}"></p>
+<form th:action="@{/profile/inviteUser}" th:method="POST">
+	<label for="invitedUser">Invite a User - family only please!</label>
+	<br>
+	<input type="email" id="invitedUser" name="invitedUser" placeholder="Enter an email address" required>
+	<br><br>
+	<button type="submit"> Invite! </button>
+</form>
+			<div class="alert alert-danger" th:if="${param.uexists}" th:with="errorMsg='This person has already been invited'">
+				Your invite was not successful, please try again.<br />
+				Reason: <span th:text="${errorMsg}">Wrong input!</span>
+			</div>
+			<div class="alert alert-danger" th:if="${param.eemail}" th:with="errorMsg='The email address was blank'">
+				Your invite was not successful, please try again.<br />
+				Reason: <span th:text="${errorMsg}">Wrong input!</span>
+			</div>
+			<div class="alert alert-success" th:if="${param.usuccess}">
+				You've successfully invited a user!<br />
+			</div>
+		</div>
+	</div>
 <div th:replace="partials/fragment :: scripts"></div>
 </body>
 </html>

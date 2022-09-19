@@ -40,10 +40,13 @@ public class User {
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
 
+	@Column(columnDefinition = "TEXT")
+	private String bio;
+
 	public User() {
 	}
 
-	public User(long id, String firstName, String lastName, String username, String email, String password, String city, String state, String profile_img, String verificationCode, boolean enabled) {
+	public User(long id, String firstName, String lastName, String username, String email, String password, String city, String state, String profile_img, String verificationCode, boolean enabled, String bio) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -55,6 +58,7 @@ public class User {
 		this.profile_img = profile_img;
 		this.verificationCode = verificationCode;
 		this.enabled = enabled;
+		this.bio = bio;
 	}
 
 	public User(User copy) {
@@ -69,9 +73,10 @@ public class User {
 		profile_img = copy.profile_img;
 		verificationCode = copy.verificationCode;
 		enabled = copy.enabled;
+		bio = copy.bio;
 	}
 
-	public User(String firstName, String lastName, String username, String email, String password, String city, String state, String profile_img, String verificationCode, boolean enabled) {
+	public User(String firstName, String lastName, String username, String email, String password, String city, String state, String profile_img, String verificationCode, boolean enabled, String bio) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -82,15 +87,17 @@ public class User {
 		this.profile_img = profile_img;
 		this.verificationCode = verificationCode;
 		this.enabled = enabled;
+		this.bio = bio;
 	}
 
-	public User(String username, String email, String password, String profile_img, String verificationCode, boolean enabled) {
+	public User(String username, String email, String password, String profile_img, String verificationCode, boolean enabled, String bio) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.profile_img = profile_img;
 		this.verificationCode = verificationCode;
 		this.enabled = enabled;
+		this.bio = bio;
 	}
 
 	public long getId() {
@@ -180,4 +187,13 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	public String getBio() {
+		return bio;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+
 }
