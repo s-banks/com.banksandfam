@@ -1,7 +1,6 @@
 package com.banksandfam.banksandfam.models;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -40,9 +39,6 @@ public class User {
 
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private List<InvitedUser> invitedUser;
 
 	public User() {
 	}

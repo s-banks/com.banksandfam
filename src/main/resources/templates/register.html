@@ -19,6 +19,10 @@
         Your registration attempt was not successful, please try again.<br />
         Reason: <span th:text="${errorMsg}">Wrong input!</span>
       </div>
+      <div class="alert alert-danger" th:if="${param.notinvited}"th:with="errorMsg='You do not yet have an invitation. Please contact a family member that currently has access'">
+        Your registration attempt was not successful, please try again.<br />
+        Reason: <span th:text="${errorMsg}">Wrong input!</span>
+      </div>
       <div class="alert alert-danger" th:if="${param.error}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
         Your registration attempt was not successful, please try again.<br />
         Reason: <span th:text="${errorMsg}">Wrong input!</span>

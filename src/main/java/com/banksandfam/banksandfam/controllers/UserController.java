@@ -1,6 +1,8 @@
 package com.banksandfam.banksandfam.controllers;
 
+import com.banksandfam.banksandfam.models.InvitedUser;
 import com.banksandfam.banksandfam.models.User;
+import com.banksandfam.banksandfam.repositories.InvitedUserRepository;
 import com.banksandfam.banksandfam.repositories.UserRepository;
 import com.banksandfam.banksandfam.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +30,15 @@ public class UserController {
 
 	private PasswordEncoder passwordEncoder;
 	private UserRepository userDao;
+	private InvitedUserRepository invitedUserDao;
 
 	@Autowired
 	private UserServices service;
 
-	public UserController(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+	public UserController(PasswordEncoder passwordEncoder, UserRepository userRepository, InvitedUserRepository invitedUserRepository) {
 		this.passwordEncoder = passwordEncoder;
 		this.userDao = userRepository;
+		this.invitedUserDao = invitedUserRepository;
 	}
 
 	@GetMapping("/register")
@@ -51,36 +55,31 @@ public class UserController {
 
 	@PostMapping("/register")
 	public String processRegister(User user, HttpServletRequest request, RedirectAttributes rm) throws UnsupportedEncodingException, MessagingException {
-		//Setup 4 variables to help check for error and existing data
 		boolean inputHasErrors = user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty();
 		String passwordConfirmation = request.getParameter("verify-password");
 		User newUser = userDao.findByUsername(user.getUsername());
 		User uEmail = userDao.findByEmail(user.getEmail());
-		//run the first if to verify we aren't missing any data and that an existing user and/or email was not found and that the passwords match
-		if (!inputHasErrors && newUser == null && uEmail == null && (String.valueOf(user.getPassword()).equals(passwordConfirmation))) {
-			//runs user creation process in the UserServices service file
+		System.out.println(user.getEmail());
+		InvitedUser invitedUser = invitedUserDao.findInvitedUser(user.getEmail());
+		if (!inputHasErrors && newUser == null && uEmail == null && (String.valueOf(user.getPassword()).equals(passwordConfirmation)) && invitedUser != null) {
 			service.register(user, getSiteURL(request));
+			invitedUserDao.deleteInvitedUser(invitedUser.getInvited_email());
 			return "reg-conf";
-			//Else-if password/confirmed password do not match, redirect with a parameter
 		} else if (!String.valueOf(user.getPassword()).equals(passwordConfirmation)){
-			//set username & email attribute in session so that the fields repopulate on load and redirect
 			rm.addFlashAttribute("uName", String.valueOf(user.getUsername()));
 			rm.addFlashAttribute("email", String.valueOf(user.getEmail()));
 			return "redirect:/register?pmfail";
-			//Else-if an existing user was found, redirect with a parameter
 		} else if (newUser != null) {
-			//set email attribute in session so that the email field repopulates on load and redirect
 			rm.addFlashAttribute("email", String.valueOf(user.getEmail()));
 			return "redirect:/register?uexists";
-			//else this handles the finding of an existing email. redirect with parameter
+		} else if (invitedUser == null) {
+			return "redirect:/register?notinvited";
 		} else {
-			//set username attribute in session so that the username field repopulates on load and redirect
 			rm.addFlashAttribute("uName", String.valueOf(user.getUsername()));
 			return "redirect:/register?eexists";
 		}
 	}
 
-	//method determines what the site URL should be for the creation of the link emailed to the user
 	private String getSiteURL(HttpServletRequest request) {
 		String siteURL = request.getRequestURL().toString();
 		return siteURL.replace(request.getServletPath(), "");
@@ -88,7 +87,6 @@ public class UserController {
 
 	@GetMapping("/verify")
 	public String verifyUser(@Param("code") String code) {
-		//runs verification process from the UserServices service file to see if the code in the emailed link matches the one stored in the database
 		if (service.verify(code)) {
 			return "verify-success";
 		} else {
@@ -115,7 +113,6 @@ public class UserController {
 
 	@GetMapping("/verifyreset")
 	public String verifyReset(@Param("code") String code) {
-		//runs verification process from the UserServices service file to see if the code in the emailed link matches the one stored in the database
 		if (service.verifyReset(code)) {
 			return "reset-newpw";
 		} else {
@@ -124,7 +121,7 @@ public class UserController {
 	}
 
 	@PostMapping("/verifyreset")
-	public String doReset(HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+	public String doReset(HttpServletRequest request) {
 		String password = request.getParameter("password");
 		String passwordConfirmation = request.getParameter("verify-password");
 		String code = request.getParameter("code");
@@ -142,7 +139,6 @@ public class UserController {
 
 	@PostMapping("/contact")
 	public String userContact(User user, HttpServletRequest request, Model model) throws MessagingException, UnsupportedEncodingException {
-
 		model.addAttribute("subject", request.getParameter("subject"));
 		model.addAttribute("body", request.getParameter("msgbody"));
 		User toUser = userDao.findByUsername(request.getParameter("toUser"));
