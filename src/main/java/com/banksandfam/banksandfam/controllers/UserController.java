@@ -63,7 +63,7 @@ public class UserController {
 		InvitedUser invitedUser = invitedUserDao.findInvitedUser(user.getEmail());
 		if (!inputHasErrors && newUser == null && uEmail == null && (String.valueOf(user.getPassword()).equals(passwordConfirmation)) && invitedUser != null) {
 			service.register(user, getSiteURL(request));
-			invitedUserDao.deleteInvitedUser(invitedUser.getInvited_email());
+			//invitedUserDao.deleteInvitedUser(invitedUser.getInvited_email());
 			return "reg-conf";
 		} else if (!String.valueOf(user.getPassword()).equals(passwordConfirmation)){
 			rm.addFlashAttribute("uName", String.valueOf(user.getUsername()));

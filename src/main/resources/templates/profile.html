@@ -28,7 +28,7 @@
 				Your invite was not successful, please try again.<br />
 				Reason: <span th:text="${errorMsg}">Wrong input!</span>
 			</div>
-			<div class="alert alert-danger" th:if="${param.eemail}" th:with="errorMsg='The email address was blank'">
+			<div class="alert alert-danger" th:if="${param.eempty}" th:with="errorMsg='The email address was blank'">
 				Your invite was not successful, please try again.<br />
 				Reason: <span th:text="${errorMsg}">Wrong input!</span>
 			</div>

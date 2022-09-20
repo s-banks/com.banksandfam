@@ -4,6 +4,8 @@ import com.banksandfam.banksandfam.models.InvitedUser;
 import com.banksandfam.banksandfam.models.User;
 import com.banksandfam.banksandfam.repositories.InvitedUserRepository;
 import com.banksandfam.banksandfam.repositories.UserRepository;
+import com.banksandfam.banksandfam.services.UserServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -21,6 +23,14 @@ public class ProfileController {
 	public ProfileController(UserRepository userDao, InvitedUserRepository invitedUserRepository) {
 		this.userDao = userDao;
 		this.invitedUserDao = invitedUserRepository;
+	}
+
+	@Autowired
+	private UserServices service;
+
+	private String getSiteURL(HttpServletRequest request) {
+		String siteURL = request.getRequestURL().toString();
+		return siteURL.replace(request.getServletPath(), "");
 	}
 
 	@GetMapping("/profile")
@@ -103,18 +113,20 @@ public class ProfileController {
 	}
 
 	@PostMapping("/profile/inviteUser")
-	public String inviteUser(HttpServletRequest request) {
-		System.out.println(request.getParameter("invitedUser"));
+	public String inviteUser(HttpServletRequest request, Model model) {
 		if (request.getParameter("invitedUser") != null && !request.getParameter("invitedUser").isEmpty()) {
 			try {
 				User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				InvitedUser invitedUser = new InvitedUser();
-				System.out.println(request.getParameter("invitedUser"));
 				invitedUser.setInvited_email(request.getParameter("invitedUser"));
-				System.out.println(invitedUser.getInvited_email());
 				invitedUser.setUser(currentUser);
-				System.out.println(invitedUser.getUser());
 				invitedUserDao.save(invitedUser);
+				if (currentUser.getFirstName() == null || currentUser.getFirstName().isEmpty()) {
+					model.addAttribute("sender-name", currentUser.getUsername());
+				} else {
+					model.addAttribute("sender-name", currentUser.getFirstName());
+				}
+				service.invite(invitedUser, getSiteURL(request), model);
 				return "redirect:/profile?usuccess";
 			} catch (Exception e) {
 				return "redirect:/profile?uexists";
