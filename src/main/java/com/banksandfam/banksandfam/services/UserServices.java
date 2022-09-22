@@ -207,7 +207,6 @@ public class UserServices {
 		helper.setFrom(fromAddress, senderName);
 		helper.setTo(toAddress);
 		helper.setSubject(subject);
-		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		content = content.replace("[[from_name]]", String.valueOf(model.getAttribute("sender-name")));
 		String verifyURL = siteURL + "/register";
 		content = content.replace("[[URL]]", verifyURL);

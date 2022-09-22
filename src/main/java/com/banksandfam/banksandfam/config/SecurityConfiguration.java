@@ -36,7 +36,7 @@ public class SecurityConfiguration {
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
 				.formLogin()
-				.loginPage("/login*")
+				.loginPage("/login")
 				.defaultSuccessUrl("/")
 				.permitAll()
 				.and()
@@ -48,7 +48,7 @@ public class SecurityConfiguration {
 				.permitAll()
 				.and()
 				.authorizeRequests()
-				.antMatchers("/yarr")
+				.antMatchers("/recipes/**", "/history")
 				.authenticated();
 		return httpSecurity.build();
 	}

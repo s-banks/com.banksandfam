@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/fragment :: head('Create Recipe')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+<form th:action="@{/recipes/create}" th:method="POST">
+  <div class="createEvent-form">
+    <br>
+    <label for="fileuploaddisplay" style="color: #ef2c61; text-align: center; width: 100%">Select a file to upload:</label>
+    <input class="profile-input" type="text" id="fileuploaddisplay"  style="color: white; width: 90%" disabled>
+    <input type="hidden" id="fileupload"><br>
+    <button type="BUTTON" id="filePicker" onclick='pickFile()'>Select File</button>
+    <div class="control" id="nameBox"></div>
+    <div class="control" id="urlBox"></div>
+    <br>
+    <label for="description"><span class="required">* </span>Description</label>
+    <br>
+    <textarea style="border-radius: 15px" name="description" placeholder="A brief description of your event" id="description" rows="4"
+              cols="50" maxlength="255" required></textarea>
+    <br>
+    <div class="event-submit-button" style="text-align: center">
+      <button type="submit" style="border-radius: 25px">Submit</button>
+    </div>
+  </div>
+  <input type="hidden">
+</form>
+<div th:replace="partials/fragment :: scripts"></div>
+<script th:inline="javascript">
+  const clientApi = /*[[${fileApi}]]*/ "";
+  function pickFile(){
+    let client = filestack.init(clientApi);
+    client.pick({
+      accept: 'image/*',
+      maxFiles: 1,
+    })
+            .then(function (result) {
+              const fileData = result.filesUploaded[0];
+              const fileInput = document.querySelector('#fileupload');
+              const fileInputref = document.querySelector('#fileuploaddisplay');
+              fileInput.value = fileData.url;
+              fileInputref.value = fileData.url;
+            })
+  }
+
+  tinymce.init({
+    selector: 'textarea#description',
+    plugins: 'lists code',
+    toolbar1: 'undo redo styleselect bold italic alignleft aligncenter alignright alignjustify',
+    toolbar2: 'bullist numlist outdent indent code',
+    toolbar_mode: 'floating',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+  });
+</script>
+</body>
+</html>

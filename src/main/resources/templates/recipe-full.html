@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/fragment :: head('Full Recipe')"></head>
+<body>
+<nav th:replace="partials/fragment :: navbar"></nav>
+<main class="margins">
+<br><br>
+<p th:utext="${recipe.getRecipe_full()}"></p>
+<br><br>
+<div class="flip-card-container">
+	<a th:href="${recipe.getRecipe_front()}" target="_blank"><img class="mini-img" th:src="${recipe.getRecipe_front()}"></a>
+	<br>
+	<hr id="hr-recipe">
+	<a th:href="${recipe.getRecipe_back()}" target="_blank"><img class="mini-img" th:src="${recipe.getRecipe_back()}"></a>
+</div>
+</main>
+<div th:replace="partials/fragment :: scripts"></div>
+</body>
+</html>

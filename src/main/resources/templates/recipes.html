@@ -3,16 +3,23 @@
 <head th:replace="partials/fragment :: head('Recipes')"></head>
 <body>
 <nav th:replace="partials/fragment :: navbar"></nav>
+<main class="margins">
+<article th:each="recipe : ${recipes}">
+  <a class="card-text" th:href="'/recipes/' + ${recipe.getId()}">
 <div class="flip-card-container">
+  <h4 th:text="${recipe.title}" style="text-align: center">Card Title</h4>
   <div class="flip-card">
-    <div class="flip-card-front">
-      Front of card
+    <div class="flip-card-front" >
+      <img class="mini-img" th:src="${recipe.recipe_front}">
     </div>
     <div class="flip-card-back">
-      Back of card
+      <img class="mini-img" th:src="${recipe.recipe_back}">
     </div>
   </div>
 </div>
+  </a>
+</article>
+</main>
 <div th:replace="partials/fragment :: scripts"></div>
 </body>
 </html>
