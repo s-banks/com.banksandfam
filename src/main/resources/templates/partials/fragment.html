@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head(title)">
 	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 	<title th:text="${title}"></title>
@@ -20,34 +20,30 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" href="/recipes">Recipes</a>
+					<a sec:authorize="isAuthenticated()" class="nav-link" href="/recipes">Recipes</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/recipes/create">Create Recipes</a>
+					<a sec:authorize="isAuthenticated()" class="nav-link" href="/recipes/create">Create Recipes</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/history">History</a>
+					<a sec:authorize="isAuthenticated()" class="nav-link" href="/history">History</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/profile">Profile</a>
+					<a sec:authorize="isAuthenticated()" class="nav-link" href="/profile">Profile</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/register">Register</a>
+					<a sec:authorize="!isAuthenticated()" class="nav-link" href="/register">Register</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/login">Login</a>
+					<a sec:authorize="!isAuthenticated()" class="nav-link" href="/login">Login</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/logout">Logout</a>
+					<a sec:authorize="isAuthenticated()" class="nav-link" href="/logout">Logout</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
-
-
-
-
 
 
 <footer th:fragment="footer">

@@ -6,12 +6,24 @@
 <form th:action="@{/recipes/create}" th:method="POST">
   <div class="createEvent-form">
     <br>
-    <label for="fileuploaddisplay" style="color: #ef2c61; text-align: center; width: 100%">Select a file to upload:</label>
-    <input class="profile-input" type="text" id="fileuploaddisplay"  style="color: white; width: 90%" disabled>
+    <label for="fileuploaddisplay">Select a file to upload:</label>
+    <br>
+    <input class="profile-input" type="text" id="fileuploaddisplay" style="width: 40%" disabled>
     <input type="hidden" id="fileupload"><br>
-    <button type="BUTTON" id="filePicker" onclick='pickFile()'>Select File</button>
+    <br>
+    <button type="BUTTON" id="filePicker" onclick='pickFront()'>Select File</button>
     <div class="control" id="nameBox"></div>
     <div class="control" id="urlBox"></div>
+    <br>
+    <br>
+    <label for="fileuploaddisplay2">Select a file to upload:</label>
+    <br>
+    <input class="profile-input" type="text" id="fileuploaddisplay2" style="width: 40%" disabled>
+    <input type="hidden" id="fileupload2"><br>
+    <br>
+    <button type="BUTTON" id="filePicker2" onclick='pickBack()'>Select File</button>
+    <div class="control" id="nameBox2"></div>
+    <div class="control" id="urlBox2"></div>
     <br>
     <label for="description"><span class="required">* </span>Description</label>
     <br>
@@ -27,7 +39,7 @@
 <div th:replace="partials/fragment :: scripts"></div>
 <script th:inline="javascript">
   const clientApi = /*[[${fileApi}]]*/ "";
-  function pickFile(){
+  function pickFront(){
     let client = filestack.init(clientApi);
     client.pick({
       accept: 'image/*',
@@ -40,6 +52,21 @@
               fileInput.value = fileData.url;
               fileInputref.value = fileData.url;
             })
+  }
+
+    function pickBack() {
+      let client = filestack.init(clientApi);
+      client.pick({
+        accept: 'image/*',
+        maxFiles: 1,
+      })
+              .then(function (result) {
+                const fileData = result.filesUploaded[0];
+                const fileInput = document.querySelector('#fileupload2');
+                const fileInputref = document.querySelector('#fileuploaddisplay2');
+                fileInput.value = fileData.url;
+                fileInputref.value = fileData.url;
+              })
   }
 
   tinymce.init({
