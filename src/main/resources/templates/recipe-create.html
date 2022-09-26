@@ -3,13 +3,25 @@
 <head th:replace="partials/fragment :: head('Create Recipe')"></head>
 <body>
 <nav th:replace="partials/fragment :: navbar"></nav>
-<form th:action="@{/recipes/create}" th:method="POST">
-  <div class="createEvent-form">
+<form th:action="@{/recipes/create}" th:method="POST" th:object="${newRecipe}">
+  <div class="createEvent-form margins">
+    <br>
+    <label for="recipecategory">Recipe Category:</label>
+    <br>
+    <select id="recipecategory" name="category" th:field="*{category}">
+      <option value="Entree">Entree</option>
+      <option value="Muffins & Breads">Muffins & Breads</option>
+      <option value="Vegetable Dishes">Vegetable Dishes</option>
+    </select>
+    <br>
+    <label for="recipetitle">Recipe Title:</label>
+    <br>
+    <input class="profile-input" type="text" id="recipetitle" style="width: 40%" placeholder="Recipe title" th:field="*{title}">
     <br>
     <label for="fileuploaddisplay">Select a file to upload:</label>
     <br>
     <input class="profile-input" type="text" id="fileuploaddisplay" style="width: 40%" disabled>
-    <input type="hidden" id="fileupload"><br>
+    <input type="hidden" id="fileupload" th:field="*{recipe_front}"><br>
     <br>
     <button type="BUTTON" id="filePicker" onclick='pickFront()'>Select File</button>
     <div class="control" id="nameBox"></div>
@@ -19,7 +31,7 @@
     <label for="fileuploaddisplay2">Select a file to upload:</label>
     <br>
     <input class="profile-input" type="text" id="fileuploaddisplay2" style="width: 40%" disabled>
-    <input type="hidden" id="fileupload2"><br>
+    <input type="hidden" id="fileupload2" th:field="*{recipe_back}"><br>
     <br>
     <button type="BUTTON" id="filePicker2" onclick='pickBack()'>Select File</button>
     <div class="control" id="nameBox2"></div>
@@ -27,14 +39,11 @@
     <br>
     <label for="description"><span class="required">* </span>Description</label>
     <br>
-    <textarea style="border-radius: 15px" name="description" placeholder="A brief description of your event" id="description" rows="4"
-              cols="50" maxlength="255" required></textarea>
+    <textarea style="border-radius: 15px" name="description" placeholder="Recipe instructions" id="description" rows="4"
+              cols="50" maxlength="255" th:field="*{recipe_full}"></textarea>
     <br>
-    <div class="event-submit-button" style="text-align: center">
-      <button type="submit" style="border-radius: 25px">Submit</button>
-    </div>
+      <button type="submit" value="submit" style="border-radius: 25px">Submit</button>
   </div>
-  <input type="hidden">
 </form>
 <div th:replace="partials/fragment :: scripts"></div>
 <script th:inline="javascript">
@@ -61,16 +70,21 @@
         maxFiles: 1,
       })
               .then(function (result) {
-                const fileData = result.filesUploaded[0];
-                const fileInput = document.querySelector('#fileupload2');
-                const fileInputref = document.querySelector('#fileuploaddisplay2');
-                fileInput.value = fileData.url;
-                fileInputref.value = fileData.url;
+                const fileData2 = result.filesUploaded[0];
+                const fileInput2 = document.querySelector('#fileupload2');
+                const fileInputref2 = document.querySelector('#fileuploaddisplay2');
+                fileInput2.value = fileData2.url;
+                fileInputref2.value = fileData2.url;
               })
   }
 
   tinymce.init({
     selector: 'textarea#description',
+    setup: function (editor) {
+      editor.on('change', function () {
+        tinymce.triggerSave();
+      });
+    },
     plugins: 'lists code',
     toolbar1: 'undo redo styleselect bold italic alignleft aligncenter alignright alignjustify',
     toolbar2: 'bullist numlist outdent indent code',
